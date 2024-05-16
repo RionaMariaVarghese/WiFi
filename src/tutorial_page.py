@@ -1,7 +1,10 @@
-import sys
+import sys, os
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QScrollArea, QSizePolicy
 from PyQt6.QtCore import pyqtSignal, Qt
+from PyQt6.QtGui import QPixmap
 from tutorial_db import Session, TutorialPageContent
+
+basedir = os.path.dirname(__file__)
 
 class TutorialPage(QWidget):
     returnToIndexSignal = pyqtSignal()
@@ -153,7 +156,7 @@ class TutorialPage(QWidget):
 
     def add_paragraph(self, text, parent_layout):
         paragraph_label = QLabel(text)
-        paragraph_label.setStyleSheet("font-size: 25px; text-align: justify; padding: 10px 60px 60px 60px; letter-spacing: 2px;")
+        paragraph_label.setStyleSheet("font-size: 20px; text-align: justify; padding: 10px 60px 60px 60px; letter-spacing: 2px;")
         paragraph_label.setWordWrap(True)
 
         paragraph_label.setTextFormat(Qt.TextFormat.RichText)
@@ -179,16 +182,33 @@ class TutorialPage(QWidget):
             heading = QLabel(tutorial_content.title)
             heading.setStyleSheet("font-size: 36px; color: #feb32b; font-weight: bold; text-decoration: underline;")
             heading.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-            content = QLabel(tutorial_content.content)
-            content.setStyleSheet("font-size: 24px; color: white; font-weight: regular; text-align: justify;")
-            content.setAlignment(Qt.AlignmentFlag.AlignLeft)
-            content.setWordWrap(True)
-
             self.content_layout.addWidget(heading)
-            self.content_layout.addWidget(content)
 
-            self.add_navigation_buttons()
+            content = tutorial_content.content.strip().split('\n\n')            
+            for idx, paragraph in enumerate(content):
+                paragraph_label = QLabel(paragraph)
+                paragraph_label.setStyleSheet("font-size: 20px; color: white; font-weight: regular; text-align: justify;")
+                paragraph_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+                paragraph_label.setWordWrap(True)
+                self.content_layout.addWidget(paragraph_label)
+
+                if paragraph.startswith("IMAGE 1:"):
+                    image_label = QLabel()
+                    pixmap = QPixmap(os.path.join(basedir, 'icons/wifite1.png')).scaledToWidth(1500)
+                    image_label.setPixmap(pixmap)
+                    self.content_layout.addWidget(image_label)
+                elif paragraph.startswith("IMAGE 2:"):
+                    image_label = QLabel()
+                    pixmap = QPixmap(os.path.join(basedir, 'icons/wifite2.png')).scaledToWidth(1500)
+                    image_label.setPixmap(pixmap)
+                    self.content_layout.addWidget(image_label)
+                elif paragraph.startswith("IMAGE 3:"):
+                    image_label = QLabel()
+                    pixmap = QPixmap(os.path.join(basedir, 'icons/json.png'))
+                    image_label.setPixmap(pixmap)
+                    self.content_layout.addWidget(image_label)
+
+        self.add_navigation_buttons()
 
     def fetch_tutorial_content(self, title):
         tutorial_content = self.session.query(TutorialPageContent).filter_by(title=title).first()
@@ -273,6 +293,21 @@ class TutorialPage(QWidget):
 
         if self.current_chapter_index == len(self.chapters) - 1:
             btn_next.setEnabled(False)
+            btn_next.setStyleSheet("""
+            QPushButton {
+                font-size: 20px;
+                letter-spacing: 6px;
+                font-weight: bold;
+                background-color: rgba(0, 0, 0, 0);
+                border: 1px solid #a0a0a0; /* Change border color to gray when disabled */
+                color: #a0a0a0;
+                padding: 10px 20px;
+                border-radius: 10px;
+                margin: 6px;
+            }
+        """)
+
+
 
     def clear_layout(self, layout):
         while layout.count():

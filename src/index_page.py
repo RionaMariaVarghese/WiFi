@@ -1,6 +1,9 @@
+import os
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLabel
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt, pyqtSignal
+
+basedir = os.path.dirname(__file__)
 
 class IndexPage(QWidget):
     navigateToPage = pyqtSignal(str)
@@ -11,13 +14,13 @@ class IndexPage(QWidget):
     
     def setup_layout(self):
         chapters_list = ["TUTORIAL", "LEVELS", "HELP", "ABOUT"]
-        # path = "XSSify/icons/right_arrow.png"
+        path = os.path.join(basedir, 'icons/right-arrow.png')
 
         vlayout = QVBoxLayout(self)
         vlayout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         for chapter in chapters_list:
-            # arrow_icon = ArrowIcon(path, icon_size=(50, 50))
+            arrow_icon = ArrowIcon(path, icon_size=(50, 50))
             button = QPushButton(chapter)
             button.clicked.connect(lambda _, ch=chapter: self.navigateToPage.emit(ch))
             button.setStyleSheet("""
@@ -44,7 +47,7 @@ class IndexPage(QWidget):
             )
 
             hlayout = QHBoxLayout()
-            # hlayout.addWidget(arrow_icon)
+            hlayout.addWidget(arrow_icon)
             hlayout.addWidget(button)
             hlayout.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
