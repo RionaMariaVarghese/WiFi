@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
 
         # App window title and icon
         self.setWindowTitle("WIFI")
-        self.setWindowIcon(QIcon(os.path.join(basedir, 'icons/wifi.png')))
+        self.setWindowIcon(QIcon(os.path.join(basedir, 'wifi.png')))
 
         # Setting default font
         app_font = QFont("JetBrains Mono")

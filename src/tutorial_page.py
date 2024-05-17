@@ -194,17 +194,17 @@ class TutorialPage(QWidget):
 
                 if paragraph.startswith("IMAGE 1:"):
                     image_label = QLabel()
-                    pixmap = QPixmap(os.path.join(basedir, 'icons/wifite1.png')).scaledToWidth(1500)
+                    pixmap = QPixmap(os.path.join(basedir, 'wifite1.png')).scaledToWidth(1500)
                     image_label.setPixmap(pixmap)
                     self.content_layout.addWidget(image_label)
                 elif paragraph.startswith("IMAGE 2:"):
                     image_label = QLabel()
-                    pixmap = QPixmap(os.path.join(basedir, 'icons/wifite2.png')).scaledToWidth(1500)
+                    pixmap = QPixmap(os.path.join(basedir, 'wifite2.png')).scaledToWidth(1500)
                     image_label.setPixmap(pixmap)
                     self.content_layout.addWidget(image_label)
                 elif paragraph.startswith("IMAGE 3:"):
                     image_label = QLabel()
-                    pixmap = QPixmap(os.path.join(basedir, 'icons/json.png'))
+                    pixmap = QPixmap(os.path.join(basedir, 'json.png'))
                     image_label.setPixmap(pixmap)
                     self.content_layout.addWidget(image_label)
 

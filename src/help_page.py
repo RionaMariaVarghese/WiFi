@@ -45,7 +45,7 @@ class HelpPage(QWidget):
         top_layout.addWidget(help_label)
 
         scroll_area = QScrollArea(self)
-        scroll_area.setStyleSheet("border: none; background-color: #252839;")
+        scroll_area.setStyleSheet("border: none; background-color: #0c1221;")
         layout.addWidget(scroll_area)
 
         inner_widget = QWidget()
